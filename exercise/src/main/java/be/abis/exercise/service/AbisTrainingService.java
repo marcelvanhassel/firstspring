@@ -7,24 +7,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.List;
 
-@Component
+
 public class AbisTrainingService implements TrainingService {
     // Attributes
-    @Autowired
     private CourseService courseService;
-    @Autowired
     private PersonService personService;
-
-    @Value("Welkom welkom!")
     private String welcomeString;
 
     // Constructors
     public AbisTrainingService() {
+
+    }
+
+    @PostConstruct
+    public void init() {
         System.out.println("AbisTrainingService is ready for work!");
     }
+
     // Getters and Setters
     public CourseService getCourseService() {
         return courseService;
@@ -32,6 +35,24 @@ public class AbisTrainingService implements TrainingService {
 
     public PersonService getPersonService() {
         return personService;
+    }
+
+
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
+    public String getWelcomeString() {
+        return welcomeString;
+    }
+
+    @Value("Welkom welkom!")
+    public void setWelcomeString(String welcomeString) {
+        this.welcomeString = welcomeString;
     }
 
     // Implement other methods

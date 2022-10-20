@@ -4,11 +4,12 @@ import be.abis.exercise.model.Address;
 import be.abis.exercise.model.Company;
 import be.abis.exercise.model.Person;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-@Component
+@Repository
 public class FilePersonRepository implements PersonRepository {
 
 	private ArrayList<Person> allPersons;

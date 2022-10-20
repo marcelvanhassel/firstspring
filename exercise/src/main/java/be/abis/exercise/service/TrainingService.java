@@ -14,4 +14,7 @@ public interface TrainingService {
 
     public PersonService getPersonService();
     public CourseService getCourseService();
+
+    public void setCourseService(CourseService cs);
+    public void setPersonService(PersonService ps);
 }
