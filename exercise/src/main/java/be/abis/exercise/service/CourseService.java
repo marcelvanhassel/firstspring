@@ -11,4 +11,6 @@ public interface CourseService {
     public void addCourse(Course c);
     public void updateCourse(Course c);
     public void deleteCourse(Course c);
+
+    public List<Course> findAllCoursesCheaperThan500();
 }

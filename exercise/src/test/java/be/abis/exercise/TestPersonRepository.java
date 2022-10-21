@@ -5,16 +5,19 @@ import be.abis.exercise.repository.FilePersonRepository;
 import be.abis.exercise.repository.PersonRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@SpringBootTest
 public class TestPersonRepository {
-	
+
+	@Autowired
 	PersonRepository pr;
 	
 	@BeforeEach
 	public void setUp() {
-		pr=new FilePersonRepository();
+		pr.getAllPersons();
 	}
 	
 	@Test

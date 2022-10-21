@@ -3,20 +3,37 @@ package be.abis.exercise.repository;
 import be.abis.exercise.model.Address;
 import be.abis.exercise.model.Company;
 import be.abis.exercise.model.Person;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnResource;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 @Repository
+//@Profile("production")
+@ConditionalOnResource(resources = "file:${filepath.personrepository}")
 public class FilePersonRepository implements PersonRepository {
 
-	private ArrayList<Person> allPersons;
-	private String fileLoc = "/temp/javacourses/personsSpring.csv";
+	private ArrayList<Person> allPersons = new ArrayList<>();
+	@Value("${filepath.personrepository}")
+	private String fileLoc = "";
+
+	public void setFileLoc(String fileLoc) {
+		this.fileLoc = fileLoc;
+	}
 
 	public FilePersonRepository() {
-		allPersons = new ArrayList<Person>();
+		System.out.println("Main person repo");
+		//allPersons = new ArrayList<Person>();
+		//this.readFile();
+	}
+
+	@PostConstruct
+	public void init() {
 		this.readFile();
 	}
 
@@ -27,12 +44,13 @@ public class FilePersonRepository implements PersonRepository {
 
 	public void readFile() {
 
-		if (allPersons.size() != 0)
-			allPersons.clear();
+
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(fileLoc));
 			String s = null;
+			if (allPersons.size() != 0)
+				allPersons.clear();
 			while ((s = br.readLine()) != null) {
 				String[] vals = s.split(";");
 				if (!vals[0].equals("")) {
@@ -103,7 +121,7 @@ public class FilePersonRepository implements PersonRepository {
 	@Override
 	public void addPerson(Person p) throws IOException {
 		boolean b = false;
-		this.readFile();
+		//this.readFile();
 		Iterator<Person> iter = allPersons.iterator();
 		PrintWriter pw = new PrintWriter(new FileWriter(fileLoc, true));
 		while (iter.hasNext()) {

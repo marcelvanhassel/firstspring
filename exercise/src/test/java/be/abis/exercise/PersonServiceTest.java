@@ -20,6 +20,7 @@ public class PersonServiceTest {
     @Test
     public void personAddWorks() throws IOException {
         // Arrange
+        int placebo = ps.getAllPersons().size();
         Address myAddress = new Address();
         myAddress.setStreet("Teststraat");
         myAddress.setNr(1);
@@ -46,8 +47,10 @@ public class PersonServiceTest {
         ps.addPerson(myPerson);
         int amountOfPersonsAfterTest = ps.getAllPersons().size();
         // Assert
+        System.out.println("delete " + myPerson.getPersonId());
+        ps.deletePerson(myPerson.getPersonId());
         assertEquals(amountOfPersonsBeforeTest +1, amountOfPersonsAfterTest);
 
-        ps.deletePerson(myPerson.getPersonId());
+
     }
 }
