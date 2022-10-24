@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{dd-MM-yyyy HH:mm:ss.SSS} [%t] %-5level %logger{36}
+												%msg%n" />
+        </Console>
+        <File name="ErrorFile" fileName="/temp/javacourses/SpringErrors.json" immediateFlush="false"
+              append="false">
+            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY" />
+            <JsonTemplateLayout eventTemplateUri="classpath:EcsLayout.json" />
+        </File>
+        <File name="LoggerFile" fileName="/temp/javacourses/SpringLogs.json" immediateFlush="false"
+              append="true">
+            <JsonTemplateLayout eventTemplateUri="classpath:EcsLayout.json" />
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="fatal" additivity="false">
+            <AppenderRef ref="Console" />
+        </Root>
+        <Logger name="springLogger" level="trace" additivity="false">
+            <AppenderRef ref="LoggerFile"/>
+            <AppenderRef ref="ErrorFile" />
+        </Logger>
+    </Loggers>
+</Configuration>

@@ -4,6 +4,7 @@
 <title>Course Information</title>
 </head>
 <body>
-	<h1>Title of Course 7900 is:</h1>
+	<h1>Title of Course <span th:text="${courseId}"></span> is: <span th:text="${courseTitle}"></span></h1>
+	<p>Very warm welcome <span th:text="${firstAndLastName}"></span></p>
 </body>
 </html>

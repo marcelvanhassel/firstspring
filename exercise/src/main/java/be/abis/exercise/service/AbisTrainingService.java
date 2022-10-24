@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -68,6 +69,11 @@ public class AbisTrainingService implements TrainingService {
 
     @Override
     public void enrollForSession(Person person, Course course, LocalDate date) throws EnrollException {
+        if (date.isBefore(LocalDate.now())) {
+            throw new EnrollException("Can't enroll for session in the past!");
+        } else {
+            System.out.println(person.getFirstName() + " is now enrolled for " + course.getShortTitle() + " on " + date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        }
 
     }
 }
