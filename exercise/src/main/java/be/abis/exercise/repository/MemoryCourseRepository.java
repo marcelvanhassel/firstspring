@@ -1,5 +1,7 @@
 package be.abis.exercise.repository;
 
+import be.abis.exercise.exceptions.CourseAlreadyExistsException;
+import be.abis.exercise.exceptions.CourseNotFoundException;
 import be.abis.exercise.model.Course;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -37,15 +39,41 @@ public class MemoryCourseRepository implements CourseRepository {
 	}
 
 	@Override
-	public Course findCourse(int id) {
-		return courses.stream().filter(c->c.getCourseId().equals(id+"")).findFirst().orElse(null);
+	public Course findCourse(int id) throws CourseNotFoundException {
+		return courses.stream().filter(c->c.getCourseId().equals(id+"")).findFirst().orElseThrow(() -> new CourseNotFoundException("No course with id: " + id + " found!"));
 	}
 
 	@Override
-	public Course findCourse(String shortTitle) {
-		return courses.stream().filter(c->c.getShortTitle().equals(shortTitle)).findFirst().orElse(null);
+	public Course findCourse(String shortTitle) throws CourseNotFoundException {
+		return courses.stream().filter(c->c.getShortTitle().equalsIgnoreCase(shortTitle)).findFirst().orElseThrow(() -> new CourseNotFoundException("No course with " + shortTitle + " found!"));
 	}
 
+	// Extra implementations
+	@Override
+	public Course addCourse(Course c) throws CourseAlreadyExistsException {
+		if(!courses.contains(c)) {
+			courses.add(c);
+			return c;
+		} else {
+			throw new CourseAlreadyExistsException("Course " + c.getLongTitle() + " allready exists!");
+		}
+	}
 
+	@Override
+	public Course updateCourse(Course c) {
+		if (courses.contains(c)) {
+			courses.set(courses.indexOf(c), c);
+			return c;
+		}
+		return null;
+	}
 
+	@Override
+	public boolean deleteCourse(Course c) {
+		if(courses.contains(c)) {
+			courses.remove(c);
+					return true;
+		}
+		return false;
+	}
 }

@@ -1,6 +1,7 @@
 package be.abis.exercise.controller;
 
 import be.abis.exercise.controller.controlmodels.Login;
+import be.abis.exercise.exceptions.CourseNotFoundException;
 import be.abis.exercise.model.Person;
 import be.abis.exercise.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class AppController {
     private TrainingService trainingService;
 
     @GetMapping("/")
-    public String course(Model model) {
+    public String course(Model model) throws CourseNotFoundException {
         model.addAttribute("courseTitle", trainingService.getCourseService().findCourse(7900).getShortTitle());
         model.addAttribute("courseId", "7900");
         StringBuilder bothNames = new StringBuilder();
@@ -31,7 +32,7 @@ public class AppController {
     }
 
     @RequestMapping(value="/{myparam}")
-    public String differentCourse(@PathVariable("myparam") String courseId, Model model) {
+    public String differentCourse(@PathVariable("myparam") String courseId, Model model) throws CourseNotFoundException {
         String courseIdPattern = "\\d{4}";
         Pattern ciPatterned = Pattern.compile(courseIdPattern, Pattern.CASE_INSENSITIVE);
         Matcher check = ciPatterned.matcher(courseId);
